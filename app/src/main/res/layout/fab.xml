@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+        <RelativeLayout
+            android:id="@+id/fab_container"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Геолокация"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginRight="15dp"
+            android:layout_alignTop="@+id/fab_geo"
+            android:layout_toLeftOf="@+id/fab_geo"
+            android:layout_marginTop="15dp"
+            android:id="@+id/tv_geo" />
+
+        <android.support.design.widget.FloatingActionButton
+            style="@style/FloatingActionButton"
+            android:id="@+id/fab_geo"
+            app:backgroundTint="@color/fab_bck"
+            android:layout_gravity="bottom|end"
+            android:layout_above="@+id/fab_album"
+            android:layout_alignEnd="@id/fab_album"
+            android:src="@drawable/geo"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Фотоальбом"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginRight="15dp"
+                android:layout_alignTop="@+id/fab_album"
+                android:layout_toLeftOf="@+id/fab_album"
+                android:layout_marginTop="15dp"
+                android:id="@+id/tv_album" />
+
+            <android.support.design.widget.FloatingActionButton
+            style="@style/FloatingActionButton"
+            android:id="@+id/fab_album"
+            android:layout_gravity="bottom|end"
+            app:backgroundTint="@color/fab_bck"
+            android:layout_above="@+id/fab_camera"
+            android:layout_alignEnd="@id/fab_camera"
+            android:src="@drawable/album"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Камера"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginRight="15dp"
+                android:layout_alignTop="@+id/fab_camera"
+                android:layout_toLeftOf="@+id/fab_camera"
+                android:layout_marginTop="15dp"
+                android:id="@+id/tv_camera" />
+
+            <android.support.design.widget.FloatingActionButton
+            style="@style/FloatingActionButton"
+            android:id="@+id/fab_camera"
+            android:layout_gravity="bottom|end"
+            app:backgroundTint="@color/fab_bck"
+            android:layout_above="@+id/fab_text"
+            android:layout_alignEnd="@id/fab_text"
+            android:src="@drawable/camera"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сообщение"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginRight="15dp"
+                android:layout_alignTop="@+id/fab_text"
+                android:layout_toLeftOf="@+id/fab_text"
+                android:layout_marginTop="15dp"
+                android:id="@+id/tv_text" />
+
+            <android.support.design.widget.FloatingActionButton
+            style="@style/FloatingActionButton"
+            android:id="@+id/fab_text"
+            android:layout_gravity="bottom|end"
+            app:backgroundTint="@color/fab_bck"
+            android:layout_above="@+id/fab_add"
+            android:layout_alignEnd="@id/fab_add"
+            android:src="@drawable/text" />
+
+        <android.support.design.widget.FloatingActionButton
+            app:fabSize="normal"
+            app:borderWidth="4dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom|end"
+            android:id="@+id/fab_add"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_marginBottom="16dp"
+            app:backgroundTint="@color/fab_bck"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/add"/>
+
+
+        </RelativeLayout>
+</merge>

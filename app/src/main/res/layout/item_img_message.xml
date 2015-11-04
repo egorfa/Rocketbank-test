@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="120dp">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tv_time"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"/>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/chat_msg_left_margin"
+        android:layout_marginRight="@dimen/chat_msg_right_margin"
+        android:minWidth="120dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="45dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_time"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/item_chat_bck">
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:layout_alignWithParentIfMissing="false"
+            android:id="@+id/img_msg" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

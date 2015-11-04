@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#9E9E9E</color>
+    <color name="colorAccent">#FF9800</color>
+
+    <color name="fill_bck">#5CFFFFFF</color>
+
+    <color name="text_date">#9E9E9E</color>
+    <color name="text_message_previous">#212121</color>
+
+    <color name="fab_text">#000000</color>
+    <color name="fab_bck">#FF9800</color>
+    <color name="fab_bck_accent">#F76B1C</color>
+
+    <color name="text_message_new_hint">#9E9E9E</color>
+    <color name="text_message_new">#212121</color>
+</resources>
