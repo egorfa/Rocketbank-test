@@ -7,12 +7,17 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabAdd, fabText, fabCamera, fabAlbum, fabGeo;
     private TextView tvText, tvCamera, tvAlbum, tvGeo;
     private EditText etMsg;
+    private ImageButton btnSend;
+
     private boolean isExpand = false;
 
     private float offset1, offset2, offset3, offSet4;
@@ -30,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final ViewGroup fabContainer =(ViewGroup) findViewById(R.id.fab_container);
-//        final LinearLayout textContainer = (LinearLayout) findViewById(R.id.ll_text);
+        final LinearLayout textContainer = (LinearLayout) findViewById(R.id.ll_text);
 
         fabAdd = (FloatingActionButton) findViewById(R.id.fab_add);
         fabText = (FloatingActionButton) findViewById(R.id.fab_text);
@@ -43,14 +50,30 @@ public class MainActivity extends AppCompatActivity {
         tvCamera = (TextView) findViewById(R.id.tv_camera);
         tvAlbum = (TextView) findViewById(R.id.tv_album);
 
-//        etMsg = (EditText) findViewById(R.id.et_msg);
+        etMsg = (EditText) findViewById(R.id.et_msg);
 
-//        etMsg.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                return false;
-//            }
-//        });
+        btnSend = (ImageButton) findViewById(R.id.btn_send);
+
+        etMsg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().trim().equals(""))
+                    btnSend.setImageResource(R.drawable.send_enabled);
+                else
+                        btnSend.setImageResource(R.drawable.send_disabled);
+
+            }
+        });
 
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,10 +109,10 @@ public class MainActivity extends AppCompatActivity {
                 tvCamera.setAlpha(0);
                 tvAlbum.setAlpha(0);
                 tvGeo.setAlpha(0);
-//                Log.d("translation ll-text", String.valueOf(textContainer.getTranslationY()));
-//                Log.d("height of ll-text", String.valueOf(textContainer.getHeight()));
-//                textContainer.setTranslationY(textContainer.getHeight());
-//                Log.d("translation ll-text after", String.valueOf(textContainer.getTranslationY()));
+                Log.d("translation ll-text", String.valueOf(textContainer.getTranslationY()));
+                Log.d("height of ll-text", String.valueOf(textContainer.getHeight()));
+                textContainer.setTranslationY(textContainer.getHeight());
+                Log.d("translation ll-text after", String.valueOf(textContainer.getTranslationY()));
                 return true;
             }
         });
