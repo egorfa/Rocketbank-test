@@ -1,12 +1,13 @@
 package com.rocketbank.rocketbank;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.parse.ParseImageView;
 
 /**
  * Created by Egor on 04/11/15.
@@ -14,13 +15,13 @@ import com.bumptech.glide.Glide;
 public class ImageViewHolder extends RecyclerView.ViewHolder {
 
     private Context mContext;
-    private ImageView imgMessage;
+    private ParseImageView imgMessage;
     private TextView tvTime;
 
     public ImageViewHolder(View itemView, Context mContext) {
         super(itemView);
         this.mContext = mContext;
-        this.imgMessage = (ImageView) itemView.findViewById(R.id.img_msg);
+        this.imgMessage = (ParseImageView) itemView.findViewById(R.id.img_msg);
         this.tvTime = (TextView) itemView.findViewById(R.id.tv_time);
     }
 
@@ -28,9 +29,18 @@ public class ImageViewHolder extends RecyclerView.ViewHolder {
         tvTime.setText(time);
     }
 
-    void setImage(String src) {
-        Glide.with(mContext)
-            .load(src)
-            .into(imgMessage);
+    void setImage(byte[] bytes) {
+            Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            imgMessage.setImageBitmap(bmp);
+//        imgMessage.setParseFile(bmp);
+//        imgMessage.loadInBackground(new GetDataCallback() {
+//            @Override
+//            public void done(byte[] data, ParseException e) {
+//                imgMessage.setVisibility(View.VISIBLE);
+//            }
+//        });
+//        Glide.with(mContext)
+//            .load(src)
+//            .into(imgMessage);
     }
 }

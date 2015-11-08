@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#9E9E9E</color>
     <color name="colorAccent">#FF9800</color>
 
-    <color name="fill_bck">#5CFFFFFF</color>
+    <color name="fill_bck_mask">#CCFFFFFF</color>
+        <!--#5CFFFFFF</color>-->
+    <color name="fill_bck">#f5f5f5</color>
 
     <color name="text_date">#9E9E9E</color>
     <color name="text_message_previous">#212121</color>

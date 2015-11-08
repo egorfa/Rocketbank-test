@@ -1,22 +1,22 @@
 package com.rocketbank.rocketbank.model;
 
+import com.parse.ParseClassName;
+import com.parse.ParseFile;
+
 /**
  * Created by Egor on 04/11/15.
  */
+@ParseClassName("ImgMessage")
 public class ImgMessage extends ChatMessage {
 
-    private String src;
-
-    public ImgMessage(TypeMessage type, String date, String time, String src) {
-        super(type, date, time);
-        this.src = src;
+    public ImgMessage() {
     }
 
-    public String getSrc() {
-        return src;
+    public ParseFile getSrc() {
+        return getParseFile("image");
     }
 
-    public void setSrc(String src) {
-        this.src = src;
+    public void setSrc(ParseFile src) {
+        put("image", src);
     }
 }

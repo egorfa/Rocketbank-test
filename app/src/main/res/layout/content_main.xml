@@ -4,15 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:android.support.v7.widget.recyclerview="android.support.v7.recyclerview"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/fill_bck">
     <!--tools:showIn="@layout/activity_main"-->
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rvChat"
-        />
+        android:id="@+id/rvChat" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -20,13 +21,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical|right"
-        android:paddingLeft="16dp"
         android:weightSum="14"
         android:background="#ffffff"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:id="@+id/ll_text"
         android:paddingRight="16dp"
-        android:id="@+id/ll_text">
+        android:visibility="gone">
 
 
         <EditText
@@ -39,16 +38,19 @@
             android:textSize="16sp"
             android:fontFamily="sans-serif-light"
             android:background="@android:color/transparent"
-            android:hint="Введите текст сообщения" />
+            android:hint="Введите текст сообщения"
+            android:padding="16dp" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_gravity="bottom"
             android:id="@+id/btn_send"
-            android:src="@drawable/send_disabled"
+            android:src="@drawable/send_gray"
             android:background="@android:color/transparent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
+            android:scaleType="fitEnd" />
 
 
     </LinearLayout>

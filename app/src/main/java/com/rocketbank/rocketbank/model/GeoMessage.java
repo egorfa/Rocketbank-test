@@ -1,41 +1,38 @@
 package com.rocketbank.rocketbank.model;
 
+import com.parse.ParseClassName;
+
 /**
  * Created by Egor on 04/11/15.
  */
+@ParseClassName("GeoMessage")
 public class GeoMessage extends ChatMessage {
 
-    private Integer longitude, latitude;
-    private String src;
+    public GeoMessage() {
 
-    public GeoMessage(TypeMessage type, String date, String time, Integer longitude, Integer latitude, String src) {
-        super(type, date, time);
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.src = src;
     }
 
-    public Integer getLongitude() {
-        return longitude;
+    public double getLongitude() {
+        return getDouble("longitude");
     }
 
-    public void setLongitude(Integer longitude) {
-        this.longitude = longitude;
+    public void setLongitude(double longitude) {
+        put("longitude", longitude);
     }
 
-    public Integer getLatitude() {
-        return latitude;
+    public double getLatitude() {
+        return getDouble("latitude");
     }
 
-    public void setLatitude(Integer latitude) {
-        this.latitude = latitude;
+    public void setLatitude(double latitude) {
+        put("latitude", latitude);
     }
 
-    public String getSrc() {
-        return src;
+    public byte[] getBmp() {
+        return getBytes("map");
     }
 
-    public void setSrc(String src) {
-        this.src = src;
+    public void setBmp(byte[] bmp) {
+        put("map", bmp);
     }
 }

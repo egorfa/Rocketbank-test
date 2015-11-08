@@ -1,22 +1,21 @@
 package com.rocketbank.rocketbank.model;
 
+import com.parse.ParseClassName;
+
 /**
  * Created by Egor on 04/11/15.
  */
+@ParseClassName("TextMessage")
 public class TextMessage extends ChatMessage {
 
-    private String text;
-
-    public TextMessage(TypeMessage type, String date, String time, String text) {
-        super(type, date, time);
-        this.text = text;
+    public TextMessage() {
     }
 
     public String getText() {
-        return text;
+        return getString("text");
     }
 
     public void setText(String text) {
-        this.text = text;
+        put("text", text);
     }
 }

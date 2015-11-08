@@ -6,11 +6,24 @@
     android:layout_height="match_parent" android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <include layout="@layout/content_main" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <include layout="@layout/fab" />
+        <include layout="@layout/content_main" />
 
 
+        <ImageView
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:src="@color/fill_bck_mask"
+            android:id="@+id/img_mask"
+            android:alpha="0">
+
+        </ImageView>
+        <include layout="@layout/fab" />
+
+    </RelativeLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

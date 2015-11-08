@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rocketbank.rocketbank.model.ChatMessage;
-import com.rocketbank.rocketbank.model.TextMessage;
 
 import java.util.ArrayList;
 
@@ -53,22 +52,32 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ChatMessage message = mMessages.get(position);
+
+
         switch(mMessages.get(position).getType()){
             case TextMessage:
-                holder = (TextViewHolder) holder;
-                ((TextViewHolder) holder).setTitle(((TextMessage) mMessages.get(position)).getText());
-                ((TextViewHolder) holder).setTime(mMessages.get(position).getTime());
+//                ((TextViewHolder) holder).setTime(String.valueOf(message.getCreatedAt().getHours() + ":" + message.getCreatedAt().getMinutes()));
+                ((TextViewHolder) holder).setTitle(message.getText());
                 break;
             case ImageMesage:
+//                ((ImageViewHolder) holder).setTime(String.valueOf(message.getCreatedAt().getHours() + ":" + message.getCreatedAt().getMinutes()));
+                break;
             case GeoLocationMessage:
-                ((ImageViewHolder) holder).setImage(mMessages.get(position).getTime());
-                ((ImageViewHolder) holder).setTime(mMessages.get(position).getTime());
+                if(message.getTime()!=null) ((ImageViewHolder) holder).setTime(message.getTime());
+                else ((ImageViewHolder) holder).setTime(String.valueOf(message.getCreatedAt().getHours() + ":" + message.getCreatedAt().getMinutes()));
+
+                ((ImageViewHolder) holder).setImage(message.getBytes("image"));
+
+
                 break;
         }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mMessages.size();
     }
+
+
 }
