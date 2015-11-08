@@ -27,4 +27,5 @@ public class TextViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setTitle(String text) {tvText.setText(text);}
+
 }

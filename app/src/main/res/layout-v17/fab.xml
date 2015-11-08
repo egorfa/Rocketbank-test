@@ -17,7 +17,7 @@
             android:layout_marginRight="15dp"
             android:layout_alignTop="@+id/fab_geo"
             android:layout_toLeftOf="@+id/fab_geo"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:id="@+id/tv_geo" />
 
         <android.support.design.widget.FloatingActionButton
@@ -27,7 +27,8 @@
             android:layout_gravity="bottom|end"
             android:layout_above="@+id/fab_album"
             android:layout_alignEnd="@id/fab_album"
-            android:src="@drawable/geo"/>
+            android:src="@drawable/geo"
+            android:layout_marginBottom="-16dp" />
 
 
             <TextView
@@ -39,7 +40,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_alignTop="@+id/fab_album"
                 android:layout_toLeftOf="@+id/fab_album"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:id="@+id/tv_album" />
 
             <android.support.design.widget.FloatingActionButton
@@ -49,7 +50,8 @@
             app:backgroundTint="@color/fab_bck"
             android:layout_above="@+id/fab_camera"
             android:layout_alignEnd="@id/fab_camera"
-            android:src="@drawable/album"/>
+            android:src="@drawable/album"
+                android:layout_marginBottom="-16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,7 +62,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_alignTop="@+id/fab_camera"
                 android:layout_toLeftOf="@+id/fab_camera"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:id="@+id/tv_camera" />
 
             <android.support.design.widget.FloatingActionButton
@@ -70,7 +72,8 @@
             app:backgroundTint="@color/fab_bck"
             android:layout_above="@+id/fab_text"
             android:layout_alignEnd="@id/fab_text"
-            android:src="@drawable/camera"/>
+            android:src="@drawable/camera"
+                android:layout_marginBottom="-16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -81,7 +84,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_alignTop="@+id/fab_text"
                 android:layout_toLeftOf="@+id/fab_text"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:id="@+id/tv_text" />
 
             <android.support.design.widget.FloatingActionButton
@@ -91,7 +94,8 @@
             app:backgroundTint="@color/fab_bck"
             android:layout_above="@+id/fab_add"
             android:layout_alignEnd="@id/fab_add"
-            android:src="@drawable/text" />
+            android:src="@drawable/text"
+                android:layout_marginBottom="-16dp" />
 
 
         <android.support.design.widget.FloatingActionButton
@@ -101,7 +105,7 @@
             android:layout_height="56dp"
             android:layout_gravity="bottom|end"
             android:id="@+id/fab_add"
-            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
             app:backgroundTint="@color/fab_bck"
             android:layout_alignParentEnd="true"

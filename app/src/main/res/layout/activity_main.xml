@@ -21,7 +21,10 @@
             android:alpha="0">
 
         </ImageView>
-        <include layout="@layout/fab" />
+        <include layout="@layout/fab"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 

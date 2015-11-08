@@ -3,6 +3,8 @@ package com.rocketbank.rocketbank.model;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.util.Date;
+
 /**
  * Created by Egor on 04/11/15.
  */
@@ -10,10 +12,11 @@ import com.parse.ParseObject;
 public class ChatMessage extends ParseObject{
 
     private String time;
-
+    private Date date;
     public ChatMessage(){
 
     }
+    private TypeFrom from;
 
     public ChatMessage(String time) {
         this.time = "сегодня, " + time;
@@ -71,5 +74,21 @@ public class ChatMessage extends ParseObject{
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public TypeFrom getFrom() {
+        return from;
+    }
+
+    public void setFrom(TypeFrom from) {
+        this.from = from;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

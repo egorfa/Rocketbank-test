@@ -35,12 +35,15 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.rocketbank.rocketbank.model.ChatMessage;
+import com.rocketbank.rocketbank.model.TypeFrom;
 import com.rocketbank.rocketbank.model.TypeMessage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -121,16 +124,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(MainActivity.this, "Пустые сообщения никому не интересны", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    Calendar c = Calendar.getInstance();
+                    Date date = new Date();
+                    Calendar c = GregorianCalendar.getInstance();
+                    c.setTime(date);
                     final ChatMessage message = new ChatMessage(c.getTime().toString());
                     message.setType(TypeMessage.TextMessage);
                     message.setText(etMsg.getText().toString().trim());
-                    message.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            Log.d("success", "");
-                        }
-                    });
+                    message.saveInBackground();
+                    message.setDate(new Date(date.getTime() - 2 * 24 * 60 * 60 * 1000));//c.get(Calendar.DAY_OF_MONTH) + " " + String.format(Locale.US,"%tB",c)));
+                    message.setTime(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
+                    message.setFrom(TypeFrom.Local);
+
 
                     etMsg.setText("");
                     etMsg.clearFocus();
@@ -285,7 +289,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // your logic here
 
                     for (int i = markers.size()-1; i>=0; i-- ) {
-                        array.add((ChatMessage) markers.get(i));
+                        ChatMessage message = (ChatMessage) markers.get(i);
+                        message.setFrom(TypeFrom.Server);
+                        array.add(message);
                         rvChat.getAdapter().notifyDataSetChanged();
                         rvChat.scrollToPosition(0);
                     }
@@ -346,18 +352,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Bitmap bitmap = data.getParcelableExtra("bitmap");
                         Location loc = data.getParcelableExtra("location");
 
-                        final ChatMessage message = new ChatMessage();
-                        message.setType(TypeMessage.GeoLocationMessage);
-                        message.setLatitude(loc.getLatitude());
-                        message.setLongitude(loc.getLongitude());
-                        message.setBmp(bitmapToByteArray(bitmap));
+                            Date date = new Date();
+                            Calendar c = GregorianCalendar.getInstance();
+                            c.setTime(date);
+                            final ChatMessage message = new ChatMessage();
+                            message.setType(TypeMessage.GeoLocationMessage);
+                            message.setLatitude(loc.getLatitude());
+                            message.setLongitude(loc.getLongitude());
+                            message.setBmp(bitmapToByteArray(bitmap));
+                            message.saveInBackground();
 
-                        message.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                Log.d("success", "");
-                            }
-                        });
+                            message.setDate(date);
+                            message.setTime(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
+                            message.setFrom(TypeFrom.Local);
 
                         array.add(0, message);
 
@@ -372,15 +379,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Bundle extras = data.getExtras();
                             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
+                            Date date = new Date();
+                            Calendar c = GregorianCalendar.getInstance();
+                            c.setTime(date);
+
                             final ChatMessage imgMessage = new ChatMessage();
                             imgMessage.setType(TypeMessage.ImageMesage);
                             imgMessage.setBmp(bitmapToByteArray(imageBitmap));
-                            imgMessage.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    Log.d("success", "");
-                                }
-                            });
+                            imgMessage.saveInBackground();
+
+                            imgMessage.setDate(date);
+                            imgMessage.setTime(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
+                            imgMessage.setFrom(TypeFrom.Local);
 
                             array.add(0, imgMessage);
 
@@ -396,15 +406,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             try {
                                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                                 // Log.d(TAG, String.valueOf(bitmap));
+                                Date date = new Date();
+                                Calendar c = GregorianCalendar.getInstance();
+                                c.setTime(date);
+
                                 final ChatMessage imgMessage = new ChatMessage();
                                 imgMessage.setType(TypeMessage.ImageMesage);
                                 imgMessage.setBmp(bitmapToByteArray(bitmap));
                                 imgMessage.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
-                                        Log.d("success", "");
+                                        Log.d("success", " save");
                                     }
                                 });
+
+                                imgMessage.setDate(date);
+                                imgMessage.setTime(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
+                                imgMessage.setFrom(TypeFrom.Local);
 
                                 array.add(0, imgMessage);
 
@@ -689,13 +707,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showFabs();
         }
         if(isExpand) fabAdd.callOnClick();
-        if(!textContainerisShown)
+        if(textContainerisShown ==false && isExpand==false)
             super.onBackPressed();
 
     }
 
-    public static byte[] bitmapToByteArray(Bitmap bmp)
+    public byte[] bitmapToByteArray(Bitmap bmp)
     {
+        bmp = getResizedBitmap(bmp, 200);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
@@ -725,5 +744,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
         }
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 0) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 }

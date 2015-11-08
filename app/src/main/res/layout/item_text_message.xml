@@ -75,7 +75,7 @@
             android:fontFamily="sans-serif-light"
             android:textSize="16sp"
             android:background="#ffffff"
-            android:textIsSelectable="true"/>
+            android:textIsSelectable="true" />
 
     </RelativeLayout>
 

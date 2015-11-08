@@ -8,7 +8,12 @@ import android.view.ViewGroup;
 
 import com.rocketbank.rocketbank.model.ChatMessage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by Egor on 04/11/15.
@@ -53,12 +58,39 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ChatMessage message = mMessages.get(position);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        final ChatMessage message = mMessages.get(position);
+        Date date;
+        String time;
+
+        if(message.getCreatedAt()==null){
+            date = message.getDate();
+            time = message.getTime();
+
+        }else{
+            date = message.getCreatedAt();
+            SimpleDateFormat fmt = new SimpleDateFormat("HH:mm");
+            time = String.valueOf(fmt.format(date));
+        }
+        date = getZeroTimeDate(date);
+
+        String dateStr = "";
+        Date today = getZeroTimeDate(new Date());
+
+        Date yesterday = getZeroTimeDate(new Date(today.getTime() - 24 * 60 * 60 * 1000));
+        if(date.equals(today))   dateStr = "сегодня";
+        else if(date.equals(yesterday)) dateStr = "вчера";
+        else {
+            Calendar c = GregorianCalendar.getInstance();
+            c.setTime(date);
+            Locale locale = new Locale("ru");
+            dateStr = String.valueOf(c.get(Calendar.DAY_OF_MONTH) + " " + String.format(locale,"%tB",c));
+        }
 
 
         switch(mMessages.get(position).getType()){
             case TextMessage:
+                ((TextViewHolder)holder).setTime(dateStr + ", " + time);
 //                ((TextViewHolder) holder).setTime(String.valueOf(message.getCreatedAt().getHours() + ":" + message.getCreatedAt().getMinutes()));
                 ((TextViewHolder) holder).setTitle(message.getText());
                 break;
@@ -67,7 +99,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case GeoLocationMessage:
 //                if(message.getTime()!=null) ((ImageViewHolder) holder).setTime(message.getTime());
 //                else ((ImageViewHolder) holder).setTime(String.valueOf(message.getCreatedAt().getHours() + ":" + message.getCreatedAt().getMinutes()));
-
+                ((ImageViewHolder)holder).setTime(dateStr + ", " + time);
                 ((ImageViewHolder) holder).setImage(message.getBytes("image"));
 
 
@@ -80,5 +112,20 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return mMessages.size();
     }
 
+
+    public static Date getZeroTimeDate(Date date) {
+        Date res = date;
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime( date );
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        res = calendar.getTime();
+
+        return res;
+    }
 
 }

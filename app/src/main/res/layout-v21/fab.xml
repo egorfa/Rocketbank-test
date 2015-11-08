@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-        <RelativeLayout
-            android:id="@+id/fab_container"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent">
+    <RelativeLayout
+        android:id="@+id/fab_container"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent">
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,19 +30,19 @@
             android:src="@drawable/geo"/>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Фотоальбом"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif-light"
-                android:layout_marginRight="15dp"
-                android:layout_alignTop="@+id/fab_album"
-                android:layout_toLeftOf="@+id/fab_album"
-                android:layout_marginTop="15dp"
-                android:id="@+id/tv_album" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Фотоальбом"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginRight="15dp"
+            android:layout_alignTop="@+id/fab_album"
+            android:layout_toLeftOf="@+id/fab_album"
+            android:layout_marginTop="15dp"
+            android:id="@+id/tv_album" />
 
-            <android.support.design.widget.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             style="@style/FloatingActionButton"
             android:id="@+id/fab_album"
             android:layout_gravity="bottom|end"
@@ -51,19 +51,19 @@
             android:layout_alignEnd="@id/fab_camera"
             android:src="@drawable/album"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Камера"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif-light"
-                android:layout_marginRight="15dp"
-                android:layout_alignTop="@+id/fab_camera"
-                android:layout_toLeftOf="@+id/fab_camera"
-                android:layout_marginTop="15dp"
-                android:id="@+id/tv_camera" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Камера"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginRight="15dp"
+            android:layout_alignTop="@+id/fab_camera"
+            android:layout_toLeftOf="@+id/fab_camera"
+            android:layout_marginTop="15dp"
+            android:id="@+id/tv_camera" />
 
-            <android.support.design.widget.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             style="@style/FloatingActionButton"
             android:id="@+id/fab_camera"
             android:layout_gravity="bottom|end"
@@ -72,22 +72,22 @@
             android:layout_alignEnd="@id/fab_text"
             android:src="@drawable/camera"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Сообщение"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif-light"
-                android:layout_marginRight="15dp"
-                android:layout_alignTop="@+id/fab_text"
-                android:layout_toLeftOf="@+id/fab_text"
-                android:layout_marginTop="15dp"
-                android:id="@+id/tv_text" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сообщение"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginRight="15dp"
+            android:layout_alignTop="@+id/fab_text"
+            android:layout_toLeftOf="@+id/fab_text"
+            android:layout_marginTop="15dp"
+            android:id="@+id/tv_text" />
 
-            <android.support.design.widget.FloatingActionButton
-                style="@style/FloatingActionButton"
-                android:id="@+id/fab_text"
-                android:layout_gravity="bottom|end"
+        <android.support.design.widget.FloatingActionButton
+            style="@style/FloatingActionButton"
+            android:id="@+id/fab_text"
+            android:layout_gravity="bottom|end"
             app:backgroundTint="@color/fab_bck"
             android:layout_above="@+id/fab_add"
             android:layout_alignEnd="@id/fab_add"
@@ -109,5 +109,5 @@
             android:src="@drawable/add"/>
 
 
-        </RelativeLayout>
+    </RelativeLayout>
 </merge>
