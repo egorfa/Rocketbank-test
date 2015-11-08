@@ -18,11 +18,12 @@ public class ImageViewHolder extends RecyclerView.ViewHolder {
     private ParseImageView imgMessage;
     private TextView tvTime;
 
-    public ImageViewHolder(View itemView, Context mContext) {
+    public ImageViewHolder(View itemView, Context mContext, View.OnClickListener listener) {
         super(itemView);
         this.mContext = mContext;
         this.imgMessage = (ParseImageView) itemView.findViewById(R.id.img_msg);
         this.tvTime = (TextView) itemView.findViewById(R.id.tv_time);
+        itemView.setOnClickListener(listener);
     }
 
     void setTime(String time){

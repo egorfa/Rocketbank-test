@@ -7,13 +7,19 @@
     xmlns:android.support.v7.widget.recyclerview="android.support.v7.recyclerview"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
-    android:background="@color/fill_bck">
+    android:id="@+id/rl_content_main"
+    android:background="@color/fill_bck"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+    <!-- TODO remove last 2 strings-->
     <!--tools:showIn="@layout/activity_main"-->
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rvChat" />
+        android:id="@+id/rvChat"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false"/>
 
     <LinearLayout
         android:orientation="horizontal"

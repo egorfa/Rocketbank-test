@@ -14,11 +14,12 @@ public class TextViewHolder extends RecyclerView.ViewHolder {
     private TextView tvText, tvTime;
 
 
-    public TextViewHolder(View itemView, Context mContext) {
+    public TextViewHolder(View itemView, Context mContext, View.OnClickListener listener) {
         super(itemView);
         this.mContext = mContext;
         this.tvText = (TextView) itemView.findViewById(R.id.tv_msg);
         this.tvTime = (TextView) itemView.findViewById(R.id.tv_time);
+        itemView.setOnClickListener(listener);
     }
 
     void setTime(String time){

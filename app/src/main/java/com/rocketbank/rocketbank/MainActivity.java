@@ -3,10 +3,13 @@ package com.rocketbank.rocketbank;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,11 +21,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -33,11 +38,12 @@ import com.rocketbank.rocketbank.model.ChatMessage;
 import com.rocketbank.rocketbank.model.TypeMessage;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ViewGroup fabContainer;
     private LinearLayout textContainer;
@@ -54,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean animatedTextContainer = false;
 
     private float offset, offset1, offset2, offset3, offSet4;
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_GEO_LOCATION = 2;
+    static final int PICK_IMAGE_REQUEST = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,21 +117,34 @@ public class MainActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                final ChatMessage message = new ChatMessage(c.getTime().toString());
-                message.setType(TypeMessage.TextMessage);
-                message.setText(etMsg.getText().toString().trim());
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.d("success", "");
+                if (etMsg.getText().toString().trim().equals("")) {
+                    Toast.makeText(MainActivity.this, "Пустые сообщения никому не интересны", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Calendar c = Calendar.getInstance();
+                    final ChatMessage message = new ChatMessage(c.getTime().toString());
+                    message.setType(TypeMessage.TextMessage);
+                    message.setText(etMsg.getText().toString().trim());
+                    message.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Log.d("success", "");
+                        }
+                    });
+
+                    etMsg.setText("");
+                    etMsg.clearFocus();
+                    View view = MainActivity.this.getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
-                });
+                    showFabs();
+                    array.add(0, message);
 
-                array.add(0, message);
-
-                rvChat.getAdapter().notifyDataSetChanged();
-                rvChat.scrollToPosition(0);
+                    rvChat.getAdapter().notifyDataSetChanged();
+                    rvChat.scrollToPosition(0);
+                }
             }
         });
 
@@ -154,12 +177,53 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        fabText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideAllFabs();
+                imgMask.setClickable(false);
+                etMsg.setFocusableInTouchMode(true);
+                etMsg.requestFocus();
+
+            }
+        });
+
+        fabCamera.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                isExpand = !isExpand;
+                imgMask.setClickable(false);
+                collapseFab();
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if(intent.resolveActivity(getPackageManager())!= null){
+                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                }
+            }
+        });
+
+        fabAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isExpand = !isExpand;
+                imgMask.setClickable(false);
+                collapseFab();
+
+                Intent intent = new Intent();
+// Show only images, no videos or anything else
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+// Always show the chooser (if there are multiple options available)
+                startActivityForResult(Intent.createChooser(intent, "Выберите фото"), PICK_IMAGE_REQUEST);
+            }
+        });
+
         fabGeo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MapActivity.class);
                 intent.putExtra("needResult", true);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, REQUEST_GEO_LOCATION);
 
                 isExpand = !isExpand;
                 imgMask.setClickable(false);
@@ -167,13 +231,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fabText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideAllFabs();
-                imgMask.setClickable(false);
-            }
-        });
+
+
 
         fabContainer.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -215,17 +274,13 @@ public class MainActivity extends AppCompatActivity {
         rvChat.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
         array = new ArrayList<>();
-//        for(int i=0;i<20;i++) {
-//////            TextMessage message = new TextMessage("сегодня", "13:" + String.valueOf(i));
-//////            message.setText("Сообщение " + String.valueOf(i));
-////            array.add(0, message);
-//        }
-        rvChat.setAdapter(new ChatAdapter(MainActivity.this, array));
+        rvChat.setAdapter(new ChatAdapter(MainActivity.this, array, MainActivity.this));
 
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("ChatMessage");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> markers, ParseException e) {
+
                 if (e == null) {
                     // your logic here
 
@@ -234,8 +289,10 @@ public class MainActivity extends AppCompatActivity {
                         rvChat.getAdapter().notifyDataSetChanged();
                         rvChat.scrollToPosition(0);
                     }
+
+
                 } else {
-                    // handle Parse Exception here
+                    Toast.makeText(MainActivity.this, "Ошибка при загрузке сообщений, попробуйте позднее", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -282,48 +339,84 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (data == null) {return;}
 //        Bitmap bitmap = data.getParcelableExtra("bitmap");
-        switch(resultCode){
-            case RESULT_OK:
-                Bitmap bitmap = data.getParcelableExtra("bitmap");
-                Location loc = data.getParcelableExtra("location");
+        switch(requestCode){
+                case REQUEST_GEO_LOCATION:
+                    switch (resultCode){
+                        case RESULT_OK:
+                        Bitmap bitmap = data.getParcelableExtra("bitmap");
+                        Location loc = data.getParcelableExtra("location");
 
-                final ChatMessage message = new ChatMessage();
-                message.setType(TypeMessage.GeoLocationMessage);
-                message.setLatitude(loc.getLatitude());
-                message.setLongitude(loc.getLongitude());
-                message.setBmp(bitmapToByteArray(bitmap));
+                        final ChatMessage message = new ChatMessage();
+                        message.setType(TypeMessage.GeoLocationMessage);
+                        message.setLatitude(loc.getLatitude());
+                        message.setLongitude(loc.getLongitude());
+                        message.setBmp(bitmapToByteArray(bitmap));
 
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.d("success", "");
+                        message.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Log.d("success", "");
+                            }
+                        });
+
+                        array.add(0, message);
+
+                        rvChat.getAdapter().notifyDataSetChanged();
+                        rvChat.scrollToPosition(0);
+                        break;
                     }
-                });
+                    break;
+                case REQUEST_IMAGE_CAPTURE:
+                    switch(resultCode) {
+                        case RESULT_OK:
+                            Bundle extras = data.getExtras();
+                            Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-//                final ParseFile parseFile = new ParseFile(bitmapToByteArray(bitmap));
-//                parseFile.saveInBackground(new SaveCallback() {
-//                    @Override
-//                    public void done(ParseException e) {
-//                        if (e != null) {
-//                            Toast.makeText(MainActivity.this,
-//                                    "Error saving: " + e.getMessage(),
-//                                    Toast.LENGTH_LONG).show();
-//                        } else {
-//                        }
-//                    }
-//                });
+                            final ChatMessage imgMessage = new ChatMessage();
+                            imgMessage.setType(TypeMessage.ImageMesage);
+                            imgMessage.setBmp(bitmapToByteArray(imageBitmap));
+                            imgMessage.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    Log.d("success", "");
+                                }
+                            });
 
+                            array.add(0, imgMessage);
 
+                            rvChat.getAdapter().notifyDataSetChanged();
+                            rvChat.scrollToPosition(0);
+                            break;
+                    }
+                    break;
+                case PICK_IMAGE_REQUEST:
+                    switch(resultCode){
+                        case RESULT_OK:
+                            Uri uri = data.getData();
+                            try {
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                                // Log.d(TAG, String.valueOf(bitmap));
+                                final ChatMessage imgMessage = new ChatMessage();
+                                imgMessage.setType(TypeMessage.ImageMesage);
+                                imgMessage.setBmp(bitmapToByteArray(bitmap));
+                                imgMessage.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        Log.d("success", "");
+                                    }
+                                });
 
+                                array.add(0, imgMessage);
 
+                                rvChat.getAdapter().notifyDataSetChanged();
+                                rvChat.scrollToPosition(0);
 
-                array.add(0, message);
-
-                rvChat.getAdapter().notifyDataSetChanged();
-                rvChat.scrollToPosition(0);
-                break;
-            case RESULT_CANCELED:
-                break;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                    }
+                    break;
         }
     }
 
@@ -450,11 +543,20 @@ public class MainActivity extends AppCompatActivity {
                         textContainerisShown = true;
                         animatedTextContainer = false;
                         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) rvChat.getLayoutParams();
-                        Log.d("height = ", String.valueOf(((ViewGroup.LayoutParams)textContainer.getLayoutParams()).height));
+                        Log.d("height = ", String.valueOf(((ViewGroup.LayoutParams) textContainer.getLayoutParams()).height));
                         lp.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin, 120);
 
                         rvChat.requestLayout();
                         rvChat.scrollToPosition(0);
+
+                        etMsg.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.showSoftInput(etMsg, InputMethodManager.SHOW_IMPLICIT);//TODO
+                            }
+                        }, 200);
+
 
                     }
 
@@ -587,7 +689,7 @@ public class MainActivity extends AppCompatActivity {
             showFabs();
         }
         if(isExpand) fabAdd.callOnClick();
-        else
+        if(!textContainerisShown)
             super.onBackPressed();
 
     }
@@ -600,4 +702,28 @@ public class MainActivity extends AppCompatActivity {
         return byteArray;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.cell_message:
+                int position = rvChat.getChildLayoutPosition(v);
+                ChatMessage message = array.get(position);
+                switch(array.get(position).getType()) {
+                    case ImageMesage:
+                        Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+                        intent.putExtra("image", message.getBmp());
+                        startActivity(intent);
+                        break;
+                    case GeoLocationMessage:
+                        Intent intent2 = new Intent(MainActivity.this, MapActivity.class);
+                        intent2.putExtra("needResult", false);
+                        intent2.putExtra("latitude", message.getLatitude());
+                        intent2.putExtra("longitude", message.getLongitude());
+                        startActivity(intent2);
+                        break;
+                }
+
+                break;
+        }
+    }
 }

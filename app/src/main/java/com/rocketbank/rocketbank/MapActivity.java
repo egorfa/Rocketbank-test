@@ -39,6 +39,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, android
     private GoogleMap googleMap;
     private LocationManager locationManager;
     private Location myLocation;
+    private boolean isSettingLocationUpdates;
 
     final private int REQUEST_CODE_ASK_PERMISSIONS = 51;
     final private int REQUEST_CODE_ASK_CANCEL_PERMISSIONS = 52;
@@ -117,10 +118,19 @@ public class MapActivity extends Activity implements OnMapReadyCallback, android
             locationManager = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
 
             setLocationManager();
+            isSettingLocationUpdates = true;
 
 
         }else{
-
+            btn.setVisibility(View.GONE);
+            double latitude = intent.getDoubleExtra("latitude", 0);
+            double longitude = intent.getDoubleExtra("longitude", 0);
+            LatLng loc = new LatLng(latitude, longitude);
+            Marker mMarker = googleMap.addMarker(new MarkerOptions().position(loc));
+            if (googleMap != null) {
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+            }
+            isSettingLocationUpdates = false;
         }
 
 
@@ -278,7 +288,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, android
                     REQUEST_CODE_ASK_PERMISSIONS);
             return;
         }
-        locationManager.removeUpdates(MapActivity.this);
+        if(isSettingLocationUpdates) locationManager.removeUpdates(MapActivity.this);
 
     }
 

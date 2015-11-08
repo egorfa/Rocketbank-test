@@ -17,10 +17,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private ArrayList<ChatMessage> mMessages;
+    private View.OnClickListener listener;
 
-    public ChatAdapter(Context mContext, ArrayList<ChatMessage> mMessages) {
+    public ChatAdapter(Context mContext, ArrayList<ChatMessage> mMessages, View.OnClickListener listener) {
         this.mContext = mContext;
         this.mMessages = mMessages;
+        this.listener = listener;
     }
 
     @Override
@@ -41,10 +43,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (viewType){
             case 0:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_text_message, parent, false);
-                return new TextViewHolder(v, mContext);
+                return new TextViewHolder(v, mContext, listener);
             case 1:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_img_message, parent, false);
-                return new ImageViewHolder(v, mContext);
+                return new ImageViewHolder(v, mContext, listener);
 
         }
         return null;
@@ -62,10 +64,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case ImageMesage:
 //                ((ImageViewHolder) holder).setTime(String.valueOf(message.getCreatedAt().getHours() + ":" + message.getCreatedAt().getMinutes()));
-                break;
             case GeoLocationMessage:
-                if(message.getTime()!=null) ((ImageViewHolder) holder).setTime(message.getTime());
-                else ((ImageViewHolder) holder).setTime(String.valueOf(message.getCreatedAt().getHours() + ":" + message.getCreatedAt().getMinutes()));
+//                if(message.getTime()!=null) ((ImageViewHolder) holder).setTime(message.getTime());
+//                else ((ImageViewHolder) holder).setTime(String.valueOf(message.getCreatedAt().getHours() + ":" + message.getCreatedAt().getMinutes()));
 
                 ((ImageViewHolder) holder).setImage(message.getBytes("image"));
 
