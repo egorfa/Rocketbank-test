@@ -18,7 +18,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.rocketbank.rocketbank.MVP.View.MapActivityView;
 import com.rocketbank.rocketbank.MVP.View.ViewHolder.MapActivityViewHolder;
-import com.rocketbank.rocketbank.MapActivity;
 import com.rocketbank.rocketbank.R;
 
 import java.io.ByteArrayOutputStream;

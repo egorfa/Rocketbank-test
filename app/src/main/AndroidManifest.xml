@@ -45,6 +45,9 @@
             android:value="@integer/google_play_services_version" />
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAbBo3DHWDyu88vmPVtabXlWqEEeP1JaFg"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="19c69cb08a03920e411356a3445fab832d644b1e" />
     </application>
 
 
