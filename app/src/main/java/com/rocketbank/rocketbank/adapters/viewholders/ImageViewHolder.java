@@ -1,4 +1,4 @@
-package com.rocketbank.rocketbank;
+package com.rocketbank.rocketbank.adapters.viewholders;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.parse.ParseImageView;
+import com.rocketbank.rocketbank.R;
 
 /**
  * Created by Egor on 04/11/15.
@@ -26,11 +27,11 @@ public class ImageViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(listener);
     }
 
-    void setTime(String time){
+    public void setTime(String time){
         tvTime.setText(time);
     }
 
-    void setImage(byte[] bytes) {
+    public void setImage(byte[] bytes) {
             Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             imgMessage.setImageBitmap(bmp);
 //        imgMessage.setParseFile(bmp);

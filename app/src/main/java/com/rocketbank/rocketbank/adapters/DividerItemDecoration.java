@@ -1,4 +1,4 @@
-package com.rocketbank.rocketbank;
+package com.rocketbank.rocketbank.adapters;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,8 @@ import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.rocketbank.rocketbank.R;
 
 
 /**

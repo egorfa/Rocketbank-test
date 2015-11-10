@@ -1,9 +1,11 @@
-package com.rocketbank.rocketbank;
+package com.rocketbank.rocketbank.adapters.viewholders;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import com.rocketbank.rocketbank.R;
 
 /**
  * Created by Egor on 04/11/15.
@@ -22,7 +24,7 @@ public class TextViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(listener);
     }
 
-    void setTime(String time){
+    public void setTime(String time){
         tvTime.setText(time);
     }
 

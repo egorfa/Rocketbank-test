@@ -1,4 +1,4 @@
-package com.rocketbank.rocketbank;
+package com.rocketbank.rocketbank.Utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;

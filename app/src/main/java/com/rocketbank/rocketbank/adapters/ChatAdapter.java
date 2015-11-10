@@ -1,4 +1,4 @@
-package com.rocketbank.rocketbank;
+package com.rocketbank.rocketbank.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rocketbank.rocketbank.R;
+import com.rocketbank.rocketbank.adapters.viewholders.ImageViewHolder;
+import com.rocketbank.rocketbank.adapters.viewholders.TextViewHolder;
 import com.rocketbank.rocketbank.model.ChatMessage;
 
 import java.text.SimpleDateFormat;
